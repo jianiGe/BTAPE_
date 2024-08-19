@@ -6,7 +6,7 @@ function onsets = get_onset(log_folder)
     log_folder = log_folder;
     log_dir = dir(log_folder);
     log_dir = log_dir(~ismember({log_dir.name}, {'.', '..'}));
-
+    cd(log_folder);
     onsets = cell(length(log_dir), 21);
 
     for i = 1:length(log_dir)

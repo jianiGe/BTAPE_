@@ -111,10 +111,16 @@ for i = 1:length(steps)
         selected_def = spm_select('List', anat_dir, filter_def);
         fnorm_def_path = cellstr(strcat(anat_dir, '\', selected_def));
         
-        fnorm_rsmp_path = {};
-        for j = 1:length(data_fm_dir)
-            fnorm_rsmp_path{j} = [data_fm_dir{j}{1}];
-        end
+        %fnorm_rsmp_path = {};
+        filter = '^rsub.*\.nii$';
+        selected_files = spm_select('List', func_dir, filter);
+        fnorm_rsmp_path = cellstr(strcat(func_dir, '\', selected_files));
+        %fileList = dir(func_dir);
+        %for i = 1:length(fileList)
+        %    if startsWith(fileList(i).name, 'rsub')
+        %        fnorm_rsmp_path{end+1} = fullfile(sub_preproc_dir, 'func', fileList(i).name);
+        %    end
+        %end
 
         % specify job
         job = normalise_functional(fnorm_def_path, fnorm_rsmp_path);
@@ -142,7 +148,7 @@ for i = 1:length(steps)
     elseif steps(i) == 'F'
 
         % select input files
-        filter = '^wsub.*\.nii$';
+        filter = '^wrsub.*\.nii$';
         selected_files = spm_select('List', func_dir, filter);
         input_paths = cellstr(strcat(func_dir, '\', selected_files));
 

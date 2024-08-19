@@ -1,13 +1,4 @@
-%% FIRST LEVEL GLM FOR ONE SUBJECT
-% 27.06
-% just a warning that for this one, i was taking less care to automatize file paths; so you
-% might have to manually replace things a bit more...than usual =>
-spm('defaults', 'fmri');
-spm_jobman('initcfg');
-
-% files paths
-proj_dir = 'C:\Users\jiani\Documents\MATLAB\BTAPE\derivatives\spm-first-level-motion-reg';
-sub_preproc_dir = 'C:\Users\jiani\Documents\MATLAB\BTAPE\derivatives\spm-preproc\sub-007\func';
+function glm_first_level_spec_est(sub_preproc_dir, runs, onsets, rp_output_path)
 
 %% input variables
 % preprocessed runs
@@ -19,29 +10,16 @@ for i = 1:length(files)
 end
 
 % runs that we are going to use
-% for now i'm using the 6 bistable runs, later (this/next week) i will
-% also try to do GLM with the localizer runs together
-runs = [1 2 3 4 5 6];
+runs = runs;
 
 % onset info
-log_folder = 'C:\Users\jiani\Documents\MATLAB\BTAPE\raw\source data\sub-007\log';
-onsets = get_onset(log_folder);
+onsets = onsets;
 
-% timing, etc.
+% timing
 RT = 1; %sec
 block_duration = 24;
 
-% regressors
-% motion
-rp_path = 'C:\Users\jiani\Documents\MATLAB\BTAPE\derivatives\spm-preproc\sub-007\func\rp_sub-007_task-BTP_run-004_bold.txt';
-rp_output_path = fullfile(proj_dir, 'motion-regressors');
-if ~exist(rp_output_path)
-    mkdir(rp_output_path);
-end
-run_length = 360;
-
-get_motion_reg(rp_path, rp_output_path, run_length);
-
+% motion regressors
 rp_dir = dir(rp_output_path);
 rp_dir = rp_dir(~ismember({rp_dir.name}, {'.', '..'}));
 
@@ -49,8 +27,7 @@ rp_dir = rp_dir(~ismember({rp_dir.name}, {'.', '..'}));
 time_mod = 1;
 
 
-
-%% finally we can build the batch!
+%% compile matlabbatch
 matlabbatch{1}.spm.stats.fmri_spec.dir = {proj_dir};
 matlabbatch{1}.spm.stats.fmri_spec.timing.units = 'scans';
 matlabbatch{1}.spm.stats.fmri_spec.timing.RT = RT;
@@ -95,3 +72,5 @@ matlabbatch{2}.spm.stats.fmri_est.method.Classical = 1;
 
 %%
 spm_jobman('run', matlabbatch);
+
+end
