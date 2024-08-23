@@ -6,7 +6,8 @@
 % - Preprocessing
 % --- realignment, coregistration, segmentation, functional normalization, structural normalization, smoothing
 % - First-level GLM
-% --- extract onset, extract motion regressors, GLM specification and estimation
+% --- extract onset, extract motion regressors, GLM specification and
+% estimation, contrast estimation
 
 
 %% Preliminary set-up
