@@ -132,8 +132,18 @@ glm_first_level_spec_est(sub_preproc_dir, runs, onsets, rp_output_path)
 
 %% First-level contrast
 
-% tba
+glm_dir = 'C:\Users\jiani\Documents\MATLAB\BTAPE\derivatives\spm-first-level-motion-reg';
 
+% sample contrasts, modify as needed
+new_contrasts = {struct('name', 'bistable1', 'weights', repmat([1 0 0 0 0 0 0 0 0 0],1,6), 'type', 't');...
+                 struct('name', 'bistable2', 'weights', repmat([0 0 1 0 0 0 0 0 0 0],1,6), 'type', 't');...
+                 struct('name', 'localizer1', 'weights', [repmat([0],1,60) [1 0 0 0 0 0 0 0 0 0]], 'type', 't');...
+                 struct('name', 'localizer2', 'weights', [repmat([0],1,60) [0 0 1 0 0 0 0 0 0 0]], 'type', 't')};
 
+% sample subject number, modify as needed
+subj = [1:1]; 
+
+% estimate contrast
+glm_contrast(glm_dir, subj, new_contrasts);
 
 

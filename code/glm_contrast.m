@@ -1,19 +1,11 @@
 % 23 August 2024
-% Script for estimating contrasts for all subjects
-% With the following sample contrasts
-% con1: bistable cond 1
-% con2: bistable cond 2
-% con3: localizer cond 1
-% con4: localizer cond 2
+% function for estimating contrasts for specified subjects
 
-glm_dir = 'C:\Users\jiani\Documents\MATLAB\BTAPE\derivatives\spm-first-level-motion-reg';
+function glm_contrast(glm_dir, subj, contrasts)
 
-new_contrasts = {struct('name', 'bistable1', 'weights', repmat([1 0 0 0 0 0 0 0 0 0],1,6), 'type', 't');...
-                 struct('name', 'bistable2', 'weights', repmat([0 0 1 0 0 0 0 0 0 0],1,6), 'type', 't');...
-                 struct('name', 'localizer1', 'weights', [repmat([0],1,60) [1 0 0 0 0 0 0 0 0 0]], 'type', 't');...
-                 struct('name', 'localizer2', 'weights', [repmat([0],1,60) [0 0 1 0 0 0 0 0 0 0]], 'type', 't')};
-
-subj = [1:1]; % replace with your subject number(s)
+glm_dir = glm_dir;
+new_contrasts = contrasts;
+subj = subj;
 
 % Specify matlabbatch
 for i = subj
@@ -48,3 +40,4 @@ for i = subj
     spm_jobman('run', matlabbatch);
 end
 
+end
